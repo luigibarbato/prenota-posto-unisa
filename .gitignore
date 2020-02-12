@@ -1,0 +1,5 @@
+docker-compose.yml
+bin/*
+lib/*
+src/__pycache__/*
+build.zip
