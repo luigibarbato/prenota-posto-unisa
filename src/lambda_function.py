@@ -5,7 +5,6 @@ from selenium.webdriver.support import expected_conditions as EC
 import os
 import logging
 import time
-from data import Data
 
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument("--headless")
