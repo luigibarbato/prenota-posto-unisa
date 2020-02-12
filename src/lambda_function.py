@@ -5,6 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 import os
 import logging
 import time
+import json
 
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument("--headless")
@@ -30,6 +31,7 @@ browser = webdriver.Chrome(chrome_options=chrome_options)
 
 
 def lambda_handler(event, context):
+    print(json.loads(event))
     try:
         browser.get(
             "http://biblio-servizi.unisa.it/produzione/salelettura/i2_prenoto.php"
