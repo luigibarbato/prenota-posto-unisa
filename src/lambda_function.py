@@ -30,6 +30,7 @@ browser = webdriver.Chrome(chrome_options=chrome_options)
 
 
 def lambda_handler(event, context):
+    string = "16:30"
     try:
         browser.get(
             "http://biblio-servizi.unisa.it/produzione/salelettura/i2_prenoto.php"
@@ -37,22 +38,56 @@ def lambda_handler(event, context):
         logging.debug(browser.title)
         print(browser.title)
         if "biblio" not in browser.title:
-            userForm = WebDriverWait(browser, 15).until(
-                EC.presence_of_element_located((By.NAME, "j_username"))
-            )
-            passForm = WebDriverWait(browser, 15).until(
-                EC.presence_of_element_located((By.NAME, "j_password"))
-            )
-            loginButton = WebDriverWait(browser, 15).until(
-                EC.presence_of_element_located((By.CLASS_NAME, "btn-signin"))
-            )
-
-        userForm.send_keys(os.environ["USER"])
-        passForm.send_keys(os.environ["PWD"])
-        loginButton.click()
-        time.sleep(10)
+            sign_in()
         print(browser.title)
-        posti = browser.find_elements(By.NAME, "posto")
+
+        table = browser.find_element(By.XPATH, "//form//table")
+        find_row(string, table)
+    finally:
+        browser.quit()
+
+
+def sign_in():
+    userForm = WebDriverWait(browser, 15).until(
+        EC.presence_of_element_located((By.NAME, "j_username"))
+    )
+    passForm = WebDriverWait(browser, 15).until(
+        EC.presence_of_element_located((By.NAME, "j_password"))
+    )
+    loginButton = WebDriverWait(browser, 15).until(
+        EC.presence_of_element_located((By.CLASS_NAME, "btn-signin"))
+    )
+    userForm.send_keys(os.environ["USER"])
+    passForm.send_keys(os.environ["PWD"])
+    loginButton.click()
+    time.sleep(10)
+
+
+def find_row(time, table):
+    colonne = browser.find_element(By.XPATH, "//form//table//tr")
+    n = len(table)
+    for(i in range(n)):
+        for(j in table):
+            if(i == time)
+                print(table[i][j])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    """  posti = browser.find_elements(By.NAME, "posto")
         print(len(posti))
         green = "rgba(0, 128, 0, 1)"
         for posto in posti:
@@ -60,7 +95,4 @@ def lambda_handler(event, context):
                 logging.debug(posto)
                 print(posto.value_of_css_property("background-color"))
                 print(posto.get_attribute("value"))
-                posto.click()
-    finally:
-        browser.quit()
-
+                posto.click() """
